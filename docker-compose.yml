@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  secure-boot-app:
+    build: .
+    ports:
+      - "80:80"
+    user: "1000:1000"
+    cap_add:
+      - NET_BIND_SERVICE
+    read_only: true
+    tmpfs:
+      - /tmp
+    environment:
+      - PORT=80
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
