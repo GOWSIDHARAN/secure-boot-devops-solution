@@ -83,16 +83,18 @@ chmod +x setup.sh system-checks.sh
 ./system-checks.sh
 ```
 
-4. **Access the Application**
+4. **Step 5: Access Your Application**
 ```bash
 # Option 1: Port forwarding
 kubectl port-forward -n devops-challenge service/secure-boot-app 8080:80
-curl http://localhost:8080/
+# Then visit: http://localhost:8080/
 
-# Option 2: NodePort (if using Minikube)
+# Option 2: Use Minikube service
 minikube service secure-boot-app -n devops-challenge --url
 curl <node-ip>:30080/
 ```
+
+**Note**: The application binds to port 80 inside the container using NET_BIND_SERVICE capability for non-root execution.
 
 ## The Port 80 vs. Non-Root Challenge
 

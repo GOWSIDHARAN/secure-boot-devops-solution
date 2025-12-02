@@ -4,18 +4,17 @@ services:
   secure-boot-app:
     build: .
     ports:
-      - "80:80"
+      - "8080:8080"
     user: "1000:1000"
     cap_add:
       - NET_BIND_SERVICE
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
     read_only: true
     tmpfs:
-      - /tmp
+      - /tmp:noexec,nosuid,size=100m
     environment:
-      - PORT=80
+      - PORT=8080
     restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:80"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
