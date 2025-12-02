@@ -66,7 +66,7 @@ validate_deployment() {
     docker exec $(docker-compose ps -q secure-boot-app) ss -tlnp || \
     print_status "Port binding check completed"
     
-    print_status "Testing API response..."
+    print_status "Testing API response on port 3000..."
     RESPONSE=$(curl -s http://localhost:3000/ 2>/dev/null || echo "")
     
     if [ -n "$RESPONSE" ]; then
@@ -98,7 +98,7 @@ main() {
     show_status
     
     print_status "🎉 Setup completed successfully!"
-    print_status "Your application is now running on port 3000 (host) mapped to container port 80!"
+    print_status "Your application is now running on port 3000!"
     print_status "Access it via the port 3000 link above in Play with Docker!"
 }
 

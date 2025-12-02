@@ -65,7 +65,7 @@ check_port_binding() {
 check_api_response() {
     print_header "Check 3: API Response Validation"
     
-    print_status "Testing API response..."
+    print_status "Testing API response on port 3000..."
     RESPONSE=$(curl -s http://localhost:3000/ 2>/dev/null || echo "")
     
     if [ -z "$RESPONSE" ]; then

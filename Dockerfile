@@ -21,8 +21,8 @@ RUN chown -R appuser:appuser /app
 # Switch to non-root user
 USER appuser
 
-# Expose port 80 (container port)
-EXPOSE 80
+# Expose port 8080 (container port) for PWD compatibility
+EXPOSE 8080
 
 # Run the Flask application
 CMD ["python", "main.py"]

@@ -50,6 +50,28 @@ Choose one of the following local Kubernetes solutions:
 
 ### Option A: Play with Docker (Easiest - No Installation Required)
 
+### Play with Docker (PWD) Configuration
+
+### Why Port 8080 in PWD?
+
+Play with Docker (PWD) has specific security restrictions that affect how containers can bind to ports:
+
+1. **NET_BIND_SERVICE Limitation**:
+   - PWD doesn't allow the `NET_BIND_SERVICE` capability for security reasons
+   - This prevents binding to privileged ports (<1024) as a non-root user
+
+2. **Port 8080 Solution**:
+   - We use port 8080 inside the container (unprivileged port)
+   - Map host port 3000 to container port 8080
+   - This works around PWD's restrictions while maintaining security
+
+3. **Security Maintained**:
+   - Still runs as non-root user (UID 1000)
+   - All other security measures remain in place
+   - Only the port binding approach is modified
+
+### PWD Setup Instructions
+
 1. **Go to https://labs.play-with-docker.com/**
 2. **Sign in** with your Docker Hub account
 3. **Upload your files** or copy-paste the code
@@ -58,11 +80,23 @@ Choose one of the following local Kubernetes solutions:
    chmod +x play-with-docker-setup.sh play-with-docker-checks.sh
    ./play-with-docker-setup.sh
    ```
-5. **Validate the deployment**:
+5. **Access the application**:
+   - Click the port 3000 link that appears at the top of the PWD interface
+   - This maps to port 8080 inside the container
+
+6. **Verify the deployment**:
    ```bash
    ./play-with-docker-checks.sh
    ```
-6. **Access the application** via the port 80 link in Play with Docker
+
+### Comparison: PWD vs Production
+
+| Environment | Internal Port | Host Port | Capabilities Used |
+|-------------|---------------|-----------|-------------------|
+| **PWD**     | 8080          | 3000      | None (restricted) |
+| **Production** | 80         | 80        | NET_BIND_SERVICE  |
+
+In a production environment with proper permissions, the application runs on port 80 using the `NET_BIND_SERVICE` capability. PWD's security model requires this alternative configuration.
 
 ### Option B: Local Kubernetes Setup
 
@@ -220,21 +254,21 @@ The `system-checks.sh` script performs comprehensive validation:
 ## Security Best Practices Implemented
 
 ### Container Security
-- ✅ **Non-root user execution** (UID 1000)
-- ✅ **Read-only filesystem**
-- ✅ **Minimal base image** (Alpine Linux)
-- ✅ **Least privilege capabilities** (only NET_BIND_SERVICE)
+- **Non-root user execution** (UID 1000)
+- **Read-only filesystem**
+- **Minimal base image** (Alpine Linux)
+- **Least privilege capabilities** (only NET_BIND_SERVICE)
 
 ### Kubernetes Security
-- ✅ **Resource limits** (memory constraints)
-- ✅ **Namespace isolation**
-- ✅ **Security context configuration**
-- ✅ **Read-only root filesystem**
+- **Resource limits** (memory constraints)
+- **Namespace isolation**
+- **Security context configuration**
+- **Read-only root filesystem**
 
 ### Infrastructure Security
-- ✅ **Infrastructure as Code** (reproducible, auditable)
-- ✅ **Resource quotas** (prevent resource exhaustion)
-- ✅ **Version-controlled configurations**
+- **Infrastructure as Code** (reproducible, auditable)
+- **Resource quotas** (prevent resource exhaustion)
+- **Version-controlled configurations**
 
 ## Troubleshooting
 

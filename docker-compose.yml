@@ -4,10 +4,8 @@ services:
   secure-boot-app:
     build: .
     ports:
-      - "3000:80"
+      - "3000:8080"  # Map host port 3000 to container port 8080 for PWD
     user: "1000:1000"
-    cap_add:
-      - NET_BIND_SERVICE
     cap_drop:
       - ALL
     security_opt:
@@ -16,5 +14,5 @@ services:
     tmpfs:
       - /tmp:noexec,nosuid,size=100m
     environment:
-      - PORT=80
+      - PORT=8080  # Set container port to 8080
     restart: unless-stopped
