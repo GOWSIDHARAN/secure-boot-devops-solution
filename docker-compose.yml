@@ -4,7 +4,7 @@ services:
   secure-boot-app:
     build: .
     ports:
-      - "8080:8080"
+      - "3000:80"
     user: "1000:1000"
     cap_add:
       - NET_BIND_SERVICE
@@ -16,5 +16,5 @@ services:
     tmpfs:
       - /tmp:noexec,nosuid,size=100m
     environment:
-      - PORT=8080
+      - PORT=80
     restart: unless-stopped

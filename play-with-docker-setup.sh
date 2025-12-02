@@ -67,7 +67,7 @@ validate_deployment() {
     print_status "Port binding check completed"
     
     print_status "Testing API response..."
-    RESPONSE=$(curl -s http://localhost:8080/ 2>/dev/null || echo "")
+    RESPONSE=$(curl -s http://localhost:3000/ 2>/dev/null || echo "")
     
     if [ -n "$RESPONSE" ]; then
         print_status "API Response: $RESPONSE"
@@ -98,8 +98,8 @@ main() {
     show_status
     
     print_status "🎉 Setup completed successfully!"
-    print_status "Your application is now running on port 8080!"
-    print_status "Access it via the port 8080 link above in Play with Docker!"
+    print_status "Your application is now running on port 3000 (host) mapped to container port 80!"
+    print_status "Access it via the port 3000 link above in Play with Docker!"
 }
 
 # Run main function
